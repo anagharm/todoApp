@@ -1,28 +1,28 @@
 const mongoose			= require("mongoose");
 const globalVariable 	= require("../../nodemon.js");
-const Status            = require("../statuses/statuses_model.js");
+const Subject           = require("../subjects/subjects_model.js");
 const ObjectID          		= require('mongodb').ObjectID;
 
 exports.insert_data = (req,res,next) => { 
-	Status.findOne({status : req.body.status})
-		  .then(status => {
-		  		if(status){
+	Subject.findOne({subject : req.body.subject})
+		  .then(subject => {
+		  		if(subject){
 		  			res.status(200).json({
                                         errorCode   : 1,
-                                        errorMsg    : "Status Already Exists",
+                                        errorMsg    : "Subject Already Exists",
                                         response    :  ""
                                     });
 		  		}else{
-		  			const status = new Status({
+		  			const subject = new Subject({
 		  											_id 		: new mongoose.Types.ObjectId(),
-		  											status 		: req.body.status,
+		  											subject 	: req.body.subject,
 		  											createdAt 	: new Date()
 		  										})
-		  			status  .save()
+		  			subject  .save()
 		  				    .then(data =>{
 		  						res.status(200).json({
 				                                        errorCode   : 0,
-				                                        errorMsg    : "Status Added",
+				                                        errorMsg    : "Subject Added",
 				                                        response    :  ""
 				                                    });	    	
 		  				    })
@@ -41,18 +41,18 @@ exports.insert_data = (req,res,next) => {
 };
 
 exports.update_data = (req,res,next) => {
-	Status  .updateOne(
+	Subject  .updateOne(
 						{ _id : ObjectID(req.body.id) },
 						{
 							$set : {
-										status : req.body.status
+										subject : req.body.subject
 									}
 						}
 					  )
 		    .then(data =>{
 					res.status(200).json({
 	                                    errorCode   : 0,
-	                                    errorMsg    : "Status Updated",
+	                                    errorMsg    : "Subject Updated",
 	                                    response    :  ""
 	                                });	    	
 		    })
@@ -64,11 +64,11 @@ exports.update_data = (req,res,next) => {
 };
 
 exports.list = (req,res,next) => {
-	Status.find()
+	Subject.find()
 		  .then(data =>{
 					res.status(200).json({
 	                                    errorCode   : 0,
-	                                    errorMsg    : "Status List",
+	                                    errorMsg    : "Subject List",
 	                                    response    :  data
 	                                });	    	
 		    })
@@ -79,11 +79,11 @@ exports.list = (req,res,next) => {
 	    	})
 };
 
-exports.list_statuskeyvalue = (req,res,next) => {
-	Status.aggregate([
+exports.list_subjectkeyvalue = (req,res,next) => {
+	Subject.aggregate([
 							{
 								$project : {
-												"key" 		: "$status",
+												"key" 		: "$subject",
 												"value"		: "$_id"
 											}
 							}
@@ -92,7 +92,7 @@ exports.list_statuskeyvalue = (req,res,next) => {
 		  			data.unshift({"key":"Select",value:"Select"})
 					res.status(200).json({
 	                                    errorCode   : 0,
-	                                    errorMsg    : "Status List",
+	                                    errorMsg    : "Subject List",
 	                                    response    :  data
 	                                });	    	
 		    })
@@ -105,11 +105,11 @@ exports.list_statuskeyvalue = (req,res,next) => {
 
 exports.delete_data = (req,res,next) => {
 	console.log("id ",req.body)
-	Status.deleteOne({ _id : ObjectID(req.body.id) })
+	Subject.deleteOne({ _id : ObjectID(req.body.id) })
 		  .then(data =>{
 					res.status(200).json({
 	                                    errorCode   : 0,
-	                                    errorMsg    : "Status Detete",
+	                                    errorMsg    : "Subject Detete",
 	                                    response    :  ""
 	                                });	    	
 		    })

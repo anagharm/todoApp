@@ -16,7 +16,10 @@ global.JWT_KEY 			= globalVariable.JWT_KEY;
 const usersRoutes 				= require("./api/users/users_routes.js");
 const profileRoutes 			= require("./api/profiles/profiles_routes.js");
 const statusRoutes 				= require("./api/statuses/statuses_routes.js");
+const subjectRoutes				= require("./api/subjects/subjects_routes.js");
 const todoListsRoutes 			= require("./api/todoLists/todoLists_routes.js");
+const typeOfAssignmentsRoutes 	= require("./api/typeOfAssignments/typeOfAssignments_routes.js");
+const schoolWorksRoutes 	= require("./api/schoolWorks/schoolWorks_routes.js");
 
 // mongoose.connect('mongodb://localhost/'+dbname,{
 mongoose.connect('mongodb://localhost/'+dbname,{
@@ -37,6 +40,9 @@ app.use("/api/user",usersRoutes);
 app.use("/api/profile",profileRoutes);
 app.use("/api/status",statusRoutes);
 app.use("/api/todolist",todoListsRoutes);
+app.use("/api/subject",subjectRoutes);
+app.use("/api/typeofassignment",typeOfAssignmentsRoutes);
+app.use("/api/schoolworks",schoolWorksRoutes);
 
 // handle all other request which not found 
 app.use((req, res, next) => {
